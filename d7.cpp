@@ -4,16 +4,12 @@
 #include <vector>
 #include <sstream>
 #include <set>
-#include <map>
-#include <cassert>
-#include <cmath>
-#include <numeric>
 
 using namespace std;
 #define forR(i, a) for(int i = 0; i < (a); ++i)
 #define REP(i, a, b) for(int i = (a); i < (b); ++i)
 typedef long long ll;
-const bool DEBUG = true;
+const bool DEBUG = false;
 ll po(ll b, ll e) {
     if(e == 0) return 1;
     else {
@@ -38,4 +34,33 @@ struct debOut {
 } dout;
 
 signed main() {
+    vector<string> lines;
+    string line;
+    while(getline(cin, line)) {
+        lines.push_back(line);
+    }
+
+    int n = lines.size(), m = lines[0].size();
+
+    set<int> pre;
+    forR(c, m) if(lines[0][c] == 'S') pre.insert(c);
+
+    int tot = 0;
+    REP(cr, 1, n) {
+        set<int> cur;
+        forR(c, m) {
+            if(lines[cr][c] == '.') {
+                if(pre.count(c)) cur.insert(c);
+            } else if(lines[cr][c] == '^') {
+                if(pre.count(c)) {
+                    cur.insert(c-1);
+                    cur.insert(c+1);
+                    ++tot;
+                }
+            }
+        }
+        pre = std::move(cur);
+    }
+
+    cout << tot << endl;
 }

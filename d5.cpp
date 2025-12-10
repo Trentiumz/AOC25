@@ -4,16 +4,12 @@
 #include <vector>
 #include <sstream>
 #include <set>
-#include <map>
-#include <cassert>
-#include <cmath>
-#include <numeric>
 
 using namespace std;
 #define forR(i, a) for(int i = 0; i < (a); ++i)
 #define REP(i, a, b) for(int i = (a); i < (b); ++i)
 typedef long long ll;
-const bool DEBUG = true;
+const bool DEBUG = false;
 ll po(ll b, ll e) {
     if(e == 0) return 1;
     else {
@@ -36,6 +32,33 @@ struct debOut {
         return *this;
     }
 } dout;
+struct range {
+    ll lo, hi;
+};
+
 
 signed main() {
+    string line;
+    vector<range> fresh;
+    while(getline(cin, line)) {
+        if(line == "") break;
+        stringstream cl(line);
+        string lef, rig;
+        getline(cl, lef, '-'); getline(cl, rig);
+
+        ll st = stol(lef), ed=stol(rig);
+        fresh.push_back({st, ed});
+    }
+
+    int tot = 0;
+    while(getline(cin, line)) {
+        ll cur = stol(line);
+        bool isFresh = false;
+        for(auto [lo, hi] : fresh) {
+            if(lo <= cur && cur <= hi) isFresh = true;
+        }
+        if(isFresh) ++tot;
+    }
+
+    cout << tot << endl;
 }
